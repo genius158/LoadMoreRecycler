@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             lmrData.postDelayed({
                 if (dataList.size > 32) {
                     lmrData.loadMoreView.tvLoad.text = getString(R.string.no_more)
-                    lmrData.loadMoreComplete(true)
+                    lmrData.loadMoreComplete(500)
                 } else {
                     val tempSize = dataList.size
                     for (i in 0 until 8) {

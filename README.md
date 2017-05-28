@@ -20,7 +20,8 @@ recycler view with load more , recyclerView 实现加载更多的小栗子（ps:
 //-控件设置-
     // 设置加载更多的监听
     moreRecycler.setOnLoadMoreListener(new MoreRecycler.OnLoadMoreListener...
-    moreRecycler.loadMoreComplete(isHideLoad) //isHideLoad 是否取消加载更多的显示
+    moreRecycler.loadMoreComplete() //加载更多已完成，保持加载加载更多界面
+    moreRecycler.loadMoreComplete(dismissDuring) //加载更多已完成，加载更多界面dismissDuring毫秒后消失
     moreRecycler.resetLoadMore() // 重置加载更多
     moreRecycler.setLoadMoreView(view) // 设置加载更多的布局
     moreRecycler.getLoadMoreView() // 得到加载更多布局
