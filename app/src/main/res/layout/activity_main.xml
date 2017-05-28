@@ -8,7 +8,7 @@
         android:id="@+id/srlRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.yan.loadmorerecycler.MoreRecycler
+        <com.yan.loadmorerecycler.LoadMoreRecycler
             android:layout_width="match_parent"
             android:id="@+id/mrData"
             android:layout_height="match_parent"/>

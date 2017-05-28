@@ -11,7 +11,7 @@ import android.view.View;
  * Created by yan on 2017/5/26.
  */
 
-public class MoreRecycler extends RecyclerView {
+public class LoadMoreRecycler extends RecyclerView {
     private static final String TAG = "MoreRecycler";
 
     private LoadWrapper loadMoreAdapter;
@@ -138,17 +138,17 @@ public class MoreRecycler extends RecyclerView {
         isLoading = false;
     }
 
-    public MoreRecycler(Context context) {
+    public LoadMoreRecycler(Context context) {
         super(context);
         initMoreRecycler(context);
     }
 
-    public MoreRecycler(Context context, @Nullable AttributeSet attrs) {
+    public LoadMoreRecycler(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initMoreRecycler(context);
     }
 
-    public MoreRecycler(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public LoadMoreRecycler(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initMoreRecycler(context);
     }
