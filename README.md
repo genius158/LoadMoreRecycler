@@ -1,7 +1,7 @@
 # LoadMoreRecycler
 
 ## 1.概述
-recycler view with load more
+recycler view with load more（ps: demo 是用的kotlin）
 <br/>
 <br/>
 在实际开发中，如果你用到了recyclerView 而且需要加载更多

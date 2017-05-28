@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.view_load.view.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    lateinit var dataList: ArrayList<String>
-    var index: Int = 0
+    private lateinit var dataList: ArrayList<String>
+    private var index: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
