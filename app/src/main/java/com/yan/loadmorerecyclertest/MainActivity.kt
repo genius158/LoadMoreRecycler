@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         dataList = ArrayList<String>()
         dataInit()
-        initSWL()
+        initSRL()
         initMR()
     }
 
-    private fun initSWL() {
+    private fun initSRL() {
         srlRefresh.setOnRefreshListener({
             dataInit()
             mrData.notifyDataSetChanged()
