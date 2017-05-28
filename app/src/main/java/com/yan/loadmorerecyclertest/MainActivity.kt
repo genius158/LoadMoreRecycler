@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private fun dataInit() {
         index = 0
         dataList.clear()
-        for (i in 0 until 8) {
+        for (i in 0 until 12) {
             dataList.add(index++.toString())
         }
     }
