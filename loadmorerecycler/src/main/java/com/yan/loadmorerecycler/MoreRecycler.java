@@ -95,6 +95,10 @@ public class MoreRecycler extends RecyclerView {
         }
     }
 
+    public void loadEnd() {
+        isLoading = false;
+    }
+
     public interface OnLoadMoreListener {
         void onLoading();
     }
@@ -111,10 +115,6 @@ public class MoreRecycler extends RecyclerView {
 
     public void notifyItemRemoved(int position) {
         loadMoreAdapter.notifyItemRemoved(position);
-        isLoading = false;
-    }
-
-    public void loadEnd() {
         isLoading = false;
     }
 
