@@ -19,7 +19,7 @@ public class MoreRecycler extends RecyclerView {
     private boolean loadMoreComplete;
     private boolean isLoading;
 
-    private View loadMore;
+    private View loadMoreView;
     private Adapter dataAdapter;
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
@@ -27,18 +27,18 @@ public class MoreRecycler extends RecyclerView {
     }
 
     public void setLoadMoreView(View LoadMore) {
-        this.loadMore = LoadMore;
+        this.loadMoreView = LoadMore;
         setLoadMoreAdapter();
     }
 
     public View getLoadView() {
-        return loadMore;
+        return loadMoreView;
     }
 
     private void setLoadMoreAdapter() {
-        if (loadMore != null && dataAdapter != null) {
+        if (loadMoreView != null && dataAdapter != null) {
             loadMoreAdapter = new LoadWrapper(dataAdapter);
-            loadMoreAdapter.setLoadMoreView(loadMore);
+            loadMoreAdapter.setLoadMoreView(loadMoreView);
             super.setAdapter(loadMoreAdapter);
         }
     }
@@ -54,7 +54,7 @@ public class MoreRecycler extends RecyclerView {
     }
 
     public void resetLoadMore() {
-        loadMoreAdapter.clearLoadMore(false);
+        loadMoreAdapter.setLoadViewVisible(true);
         loadMoreComplete = false;
     }
 
@@ -64,7 +64,7 @@ public class MoreRecycler extends RecyclerView {
 
     public void loadingComplete() {
         loadMoreComplete = true;
-        loadMoreAdapter.clearLoadMore(true);
+        loadMoreAdapter.setLoadViewVisible(false);
     }
 
     /**

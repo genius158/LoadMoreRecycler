@@ -11,16 +11,12 @@ import android.view.ViewGroup;
  */
 
 class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    static final int ITEM_TYPE_LOAD_MORE = Integer.MAX_VALUE - 2;
+    private static final int ITEM_TYPE_LOAD_MORE = Integer.MAX_VALUE - 2;
 
     private RecyclerView.Adapter innerAdapter;
     private View loadMoreView;
 
-    private boolean clearLoadMore;
-
-    public View getLoadMoreView() {
-        return loadMoreView;
-    }
+    private boolean loadViewVisible = true;
 
     LoadWrapper(RecyclerView.Adapter adapter) {
         innerAdapter = adapter;
@@ -29,7 +25,6 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean hasLoadMore() {
         return loadMoreView != null;
     }
-
 
     private boolean isShowLoadMore(int position) {
         return hasLoadMore() && (position >= innerAdapter.getItemCount());
@@ -58,21 +53,21 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (!clearLoadMore){
-            if (position == innerAdapter.getItemCount()){
+        if (hasLoadMore() && loadViewVisible) {
+            if (position == innerAdapter.getItemCount()) {
                 return;
             }
         }
         innerAdapter.onBindViewHolder(holder, position);
     }
 
-    void clearLoadMore(boolean clearLoadMore) {
-        if (clearLoadMore == this.clearLoadMore) {
+    void setLoadViewVisible(boolean loadViewVisible) {
+        if (loadViewVisible == this.loadViewVisible) {
             return;
         }
         if (hasLoadMore()) {
-            this.clearLoadMore = clearLoadMore;
-            if (!clearLoadMore) {
+            this.loadViewVisible = loadViewVisible;
+            if (this.loadViewVisible) {
                 notifyItemInserted(getItemCount());
             } else {
                 notifyItemRemoved(innerAdapter.getItemCount());
@@ -115,11 +110,7 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (clearLoadMore)
-            return innerAdapter.getItemCount();
-        else {
-            return innerAdapter.getItemCount() + (hasLoadMore() ? 1 : 0);
-        }
+        return innerAdapter.getItemCount() + (hasLoadMore() && loadViewVisible ? 1 : 0);
     }
 
     LoadWrapper setLoadMoreView(View loadMoreView) {
