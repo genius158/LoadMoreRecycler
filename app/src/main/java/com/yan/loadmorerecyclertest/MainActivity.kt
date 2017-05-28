@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             dataInit()
             mrData.notifyDataSetChanged()
             mrData.resetLoadMore()
-            mrData.loadView.tvLoad.text = getString(R.string.loading)
+            mrData.loadMoreView.tvLoad.text = getString(R.string.loading)
             srlRefresh.setRefreshing(false)
         })
     }
@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
         mrData.setOnLoadMoreListener({
             mrData.postDelayed({
                 if (dataList.size > 32) {
-                    mrData.loadView.tvLoad.text = getString(R.string.no_more)
-                    mrData.loadingComplete(true)
+                    mrData.loadMoreView.tvLoad.text = getString(R.string.no_more)
+                    mrData.loadMoreComplete(true)
                 } else {
                     val tempSize = dataList.size
                     for (i in 0 until 8) {

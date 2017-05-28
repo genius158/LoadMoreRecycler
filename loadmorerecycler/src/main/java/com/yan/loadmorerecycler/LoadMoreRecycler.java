@@ -16,7 +16,7 @@ public class LoadMoreRecycler extends RecyclerView {
 
     private LoadWrapper loadMoreAdapter;
     private OnLoadMoreListener onLoadMoreListener;
-    private boolean loadMoreComplete;
+    private boolean isLoadMoreComplete;
     private boolean isLoading;
 
     private View loadMoreView;
@@ -31,7 +31,7 @@ public class LoadMoreRecycler extends RecyclerView {
         setLoadMoreAdapter();
     }
 
-    public View getLoadView() {
+    public View getLoadMoreView() {
         return loadMoreView;
     }
 
@@ -55,15 +55,15 @@ public class LoadMoreRecycler extends RecyclerView {
 
     public void resetLoadMore() {
         loadMoreAdapter.setLoadViewVisible(true);
-        loadMoreComplete = false;
+        isLoadMoreComplete = false;
     }
 
-    public LoadWrapper getLoadAdapter() {
+    public LoadWrapper getLoadMoreAdapter() {
         return loadMoreAdapter;
     }
 
-    public void loadingComplete(boolean isHideView) {
-        loadMoreComplete = true;
+    public void loadMoreComplete(boolean isHideView) {
+        isLoadMoreComplete = true;
         loadMoreAdapter.setLoadViewVisible(!isHideView);
     }
 
@@ -74,7 +74,7 @@ public class LoadMoreRecycler extends RecyclerView {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (!canChildScrollDown() && !loadMoreComplete && !isLoading) {
+            if (!canChildScrollDown() && !isLoadMoreComplete && !isLoading) {
                 isLoading = true;
                 if (onLoadMoreListener != null) {
                     onLoadMoreListener.onLoading();
@@ -95,7 +95,7 @@ public class LoadMoreRecycler extends RecyclerView {
         }
     }
 
-    public void loadEnd() {
+    public void loadMoreEnd() {
         isLoading = false;
     }
 
