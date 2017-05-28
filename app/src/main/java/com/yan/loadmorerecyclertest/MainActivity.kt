@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         loadMoreView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
                 , RecyclerView.LayoutParams.WRAP_CONTENT)
 
-        mrData.setLoadMoreView(loadMoreView)
+        mrData.loadMoreView=loadMoreView
         mrData.setOnLoadMoreListener({
             mrData.postDelayed({
                 if (dataList.size > 32) {
