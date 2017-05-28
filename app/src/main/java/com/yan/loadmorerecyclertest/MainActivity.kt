@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_data_main.view.*
+import kotlinx.android.synthetic.main.view_load.view.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             dataInit()
             mrData.notifyDataSetChanged()
             mrData.resetLoadMore()
+            mrData.loadView.tvLoad.text = getString(R.string.loading)
             srlRefresh.setRefreshing(false)
         })
     }
@@ -56,9 +58,10 @@ class MainActivity : AppCompatActivity() {
         mrData.setLoadMoreView(loadMoreView)
         mrData.setOnLoadMoreListener({
             mrData.postDelayed({
-                if(dataList.size>32){
-                    mrData.loadingComplete()
-                }else {
+                if (dataList.size > 32) {
+                    mrData.loadView.tvLoad.text = getString(R.string.no_more)
+                    mrData.loadingComplete(true)
+                } else {
                     val tempSize = dataList.size
                     for (i in 0 until 8) {
                         dataList.add(index++.toString())

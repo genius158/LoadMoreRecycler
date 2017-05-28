@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LoadMoreRecyclerTest</string>
+    <string name="loading">正在加载</string>
+    <string name="no_more">没有更多了</string>
 </resources>
