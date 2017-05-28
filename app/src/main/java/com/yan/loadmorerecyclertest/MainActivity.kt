@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         lmrData.loadMoreView = loadMoreView
         lmrData.setOnLoadMoreListener({
             lmrData.postDelayed({
-                if (dataList.size > 32) {
+                if (dataList.size > 21) {
                     lmrData.loadMoreView.tvLoad.text = getString(R.string.no_more)
                     lmrData.loadMoreComplete(500)
                 } else {
