@@ -4,8 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yan.loadmorerecyclertest.MainActivity">
-<TextView
-    android:id="@+id/tvDemo"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.yan.loadmorerecycler.MoreRecycler
+            android:layout_width="match_parent"
+            android:id="@+id/mrData"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </FrameLayout>

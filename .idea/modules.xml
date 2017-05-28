@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/LoadMoreRecycler.iml" filepath="$PROJECT_DIR$/LoadMoreRecycler.iml" />
       <module fileurl="file://$PROJECT_DIR$/LoadMoreRecyclerTest.iml" filepath="$PROJECT_DIR$/LoadMoreRecyclerTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/loadmorerecycler/loadmorerecycler.iml" filepath="$PROJECT_DIR$/loadmorerecycler/loadmorerecycler.iml" />

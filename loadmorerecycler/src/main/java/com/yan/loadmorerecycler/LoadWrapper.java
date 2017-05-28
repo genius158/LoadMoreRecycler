@@ -1,4 +1,4 @@
-package com.hawk.funs.beta.widget.morerecycler;
+package com.yan.loadmorerecycler;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,27 +13,26 @@ import android.view.ViewGroup;
 class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     static final int ITEM_TYPE_LOAD_MORE = Integer.MAX_VALUE - 2;
 
-    private RecyclerView.Adapter mInnerAdapter;
-    private View mLoadMoreView;
+    private RecyclerView.Adapter innerAdapter;
+    private View loadMoreView;
 
     private boolean clearLoadMore;
 
     public View getLoadMoreView() {
-        return mLoadMoreView;
+        return loadMoreView;
     }
 
-
     LoadWrapper(RecyclerView.Adapter adapter) {
-        mInnerAdapter = adapter;
+        innerAdapter = adapter;
     }
 
     private boolean hasLoadMore() {
-        return mLoadMoreView != null;
+        return loadMoreView != null;
     }
 
 
     private boolean isShowLoadMore(int position) {
-        return hasLoadMore() && (position >= mInnerAdapter.getItemCount() && !clearLoadMore);
+        return hasLoadMore() && (position >= innerAdapter.getItemCount());
     }
 
     @Override
@@ -41,24 +40,30 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (isShowLoadMore(position)) {
             return ITEM_TYPE_LOAD_MORE;
         }
-        return mInnerAdapter.getItemViewType(position);
+        return innerAdapter.getItemViewType(position);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_LOAD_MORE) {
-            MViewHolder holder = null;
-            if (mLoadMoreView != null) {
-                holder = MViewHolder.createMViewHolder(parent.getContext(), mLoadMoreView);
+            RecyclerView.ViewHolder holder = null;
+            if (loadMoreView != null) {
+                holder = new RecyclerView.ViewHolder(loadMoreView) {
+                };
             }
             return holder;
         }
-        return mInnerAdapter.onCreateViewHolder(parent, viewType);
+        return innerAdapter.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        mInnerAdapter.onBindViewHolder(holder, position);
+        if (!clearLoadMore){
+            if (position == innerAdapter.getItemCount()){
+                return;
+            }
+        }
+        innerAdapter.onBindViewHolder(holder, position);
     }
 
     void clearLoadMore(boolean clearLoadMore) {
@@ -66,18 +71,18 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return;
         }
         if (hasLoadMore()) {
-            this.clearLoadMore = true;
+            this.clearLoadMore = clearLoadMore;
             if (!clearLoadMore) {
                 notifyItemInserted(getItemCount());
             } else {
-                notifyItemRemoved(mInnerAdapter.getItemCount());
+                notifyItemRemoved(innerAdapter.getItemCount());
             }
         }
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        WrapperUtils.onAttachedToRecyclerView(mInnerAdapter, recyclerView, new WrapperUtils.SpanSizeCallback() {
+        WrapperUtils.onAttachedToRecyclerView(innerAdapter, recyclerView, new WrapperUtils.SpanSizeCallback() {
             @Override
             public int getSpanSize(GridLayoutManager layoutManager, GridLayoutManager.SpanSizeLookup oldLookup, int position) {
                 if (isShowLoadMore(position)) {
@@ -93,7 +98,7 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        mInnerAdapter.onViewAttachedToWindow(holder);
+        innerAdapter.onViewAttachedToWindow(holder);
 
         if (isShowLoadMore(holder.getLayoutPosition())) {
             setFullSpan(holder);
@@ -102,11 +107,8 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void setFullSpan(RecyclerView.ViewHolder holder) {
         ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
-
-        if (lp != null
-                && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
+        if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
             StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
-
             p.setFullSpan(true);
         }
     }
@@ -114,14 +116,14 @@ class LoadWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (clearLoadMore)
-            return mInnerAdapter.getItemCount();
+            return innerAdapter.getItemCount();
         else {
-            return mInnerAdapter.getItemCount() + (hasLoadMore() ? 1 : 0);
+            return innerAdapter.getItemCount() + (hasLoadMore() ? 1 : 0);
         }
     }
 
     LoadWrapper setLoadMoreView(View loadMoreView) {
-        mLoadMoreView = loadMoreView;
+        this.loadMoreView = loadMoreView;
         return this;
     }
 }
