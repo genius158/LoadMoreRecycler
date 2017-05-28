@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             mrData.notifyDataSetChanged()
             mrData.resetLoadMore()
             mrData.loadMoreView.tvLoad.text = getString(R.string.loading)
-            srlRefresh.setRefreshing(false)
+            srlRefresh.isRefreshing=false
         })
     }
 
