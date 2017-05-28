@@ -62,6 +62,14 @@ public class LoadMoreRecycler extends RecyclerView {
         return loadMoreAdapter;
     }
 
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public boolean isLoadMoreComplete() {
+        return isLoadMoreComplete;
+    }
+
     public void loadMoreComplete(boolean isHideView) {
         isLoadMoreComplete = true;
         loadMoreAdapter.setLoadViewVisible(!isHideView);
