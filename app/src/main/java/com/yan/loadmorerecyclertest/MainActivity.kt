@@ -27,15 +27,15 @@ class MainActivity : AppCompatActivity() {
         dataList = ArrayList<String>()
         dataInit()
         initSRL()
-        initMR()
+        initLMR()
     }
 
     private fun initSRL() {
         srlRefresh.setOnRefreshListener({
             dataInit()
-            mrData.notifyDataSetChanged()
-            mrData.resetLoadMore()
-            mrData.loadMoreView.tvLoad.text = getString(R.string.loading)
+            lmrData.notifyDataSetChanged()
+            lmrData.resetLoadMore()
+            lmrData.loadMoreView.tvLoad.text = getString(R.string.loading)
             srlRefresh.isRefreshing = false
         })
     }
@@ -48,26 +48,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initMR() {
-        mrData.layoutManager = LinearLayoutManager(baseContext)
-        mrData.adapter = getAdapter()
+    private fun initLMR() {
+        lmrData.layoutManager = LinearLayoutManager(baseContext)
+        lmrData.adapter = getAdapter()
 
         val loadMoreView = layoutInflater.inflate(R.layout.view_load, null)
         loadMoreView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
                 , RecyclerView.LayoutParams.WRAP_CONTENT)
 
-        mrData.loadMoreView = loadMoreView
-        mrData.setOnLoadMoreListener({
-            mrData.postDelayed({
+        lmrData.loadMoreView = loadMoreView
+        lmrData.setOnLoadMoreListener({
+            lmrData.postDelayed({
                 if (dataList.size > 32) {
-                    mrData.loadMoreView.tvLoad.text = getString(R.string.no_more)
-                    mrData.loadMoreComplete(true)
+                    lmrData.loadMoreView.tvLoad.text = getString(R.string.no_more)
+                    lmrData.loadMoreComplete(true)
                 } else {
                     val tempSize = dataList.size
                     for (i in 0 until 8) {
                         dataList.add(index++.toString())
                     }
-                    mrData.notifyItemRangeInserted(tempSize, dataList.size - tempSize)
+                    lmrData.notifyItemRangeInserted(tempSize, dataList.size - tempSize)
                 }
             }, 2000)
         })

@@ -20,7 +20,7 @@
         android:layout_marginTop="?attr/actionBarSize">
 
         <com.yan.loadmorerecycler.LoadMoreRecycler
-            android:id="@+id/mrData"
+            android:id="@+id/lmrData"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
