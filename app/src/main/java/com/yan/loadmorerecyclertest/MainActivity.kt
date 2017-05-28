@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             mrData.notifyDataSetChanged()
             mrData.resetLoadMore()
             mrData.loadMoreView.tvLoad.text = getString(R.string.loading)
-            srlRefresh.isRefreshing=false
+            srlRefresh.isRefreshing = false
         })
     }
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         loadMoreView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
                 , RecyclerView.LayoutParams.WRAP_CONTENT)
 
-        mrData.loadMoreView=loadMoreView
+        mrData.loadMoreView = loadMoreView
         mrData.setOnLoadMoreListener({
             mrData.postDelayed({
                 if (dataList.size > 32) {
