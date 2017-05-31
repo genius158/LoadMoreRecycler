@@ -31,6 +31,12 @@ public class LoadMoreRecycler extends RecyclerView {
         setLoadMoreAdapter();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
+        super.onDetachedFromWindow();
+    }
+
     public View getLoadMoreView() {
         return loadMoreView;
     }
@@ -46,8 +52,10 @@ public class LoadMoreRecycler extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         dataAdapter = adapter;
+        dataAdapter.registerAdapterDataObserver(adapterDataObserver);
         setLoadMoreAdapter();
     }
+
 
     private void initMoreRecycler(Context context) {
         addOnScrollListener(onScrollListener);
@@ -81,7 +89,7 @@ public class LoadMoreRecycler extends RecyclerView {
             public void run() {
                 loadMoreAdapter.setLoadViewVisible(false);
             }
-        },dismissDuring);
+        }, dismissDuring);
     }
 
     /**
@@ -110,10 +118,6 @@ public class LoadMoreRecycler extends RecyclerView {
         } else {
             return ViewCompat.canScrollVertically(this, 1);
         }
-    }
-
-    public void loadMoreEnd() {
-        isLoading = false;
     }
 
     public interface OnLoadMoreListener {
@@ -154,6 +158,51 @@ public class LoadMoreRecycler extends RecyclerView {
         loadMoreAdapter.notifyDataSetChanged();
         isLoading = false;
     }
+
+    private AdapterDataObserver adapterDataObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            if (itemCount == 1) {
+                notifyItemChanged(positionStart);
+                return;
+            }
+            notifyItemRangeChanged(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            super.onItemRangeChanged(positionStart, itemCount, payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            if (itemCount == 1) {
+                notifyItemInserted(positionStart);
+                return;
+            }
+            notifyItemRangeInserted(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            if (itemCount == 1) {
+                notifyItemRemoved(positionStart);
+                return;
+            }
+            notifyItemRangeRemoved(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            isLoading = false;
+        }
+    };
 
     public LoadMoreRecycler(Context context) {
         super(context);

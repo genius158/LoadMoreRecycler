@@ -27,16 +27,14 @@ recycler view with load more , recyclerView 实现加载更多的小栗子（ps:
     moreRecycler.getLoadMoreView() // 得到加载更多布局
     loadMoreAdapter= moreRecycler.getLoadMoreAdapter() // 得到装饰过的加载更多适配器
 
-    // 数据更新可以用moreRecycler来实现
+    // 数据更新可以用moreRecycler来实现,当然也可以用 adapter直接刷新
     moreRecycler.notifyItemChanged(int)
     moreRecycler.notifyItemInserted(int)
     moreRecycler.notifyItemRemoved(int)
     moreRecycler.notifyItemRangeChanged(int, int)
     moreRecycler.notifyItemRangeInserted(int, int)
     moreRecycler.notifyItemRangeRemoved(int, int)
-    //更新数据也可以用
-    loadMoreAdapter.notifyItemChanged(int)
-    moreRecycler.loadEnd()// 更改正在加载标志位为加载结束
+
     ...
     
 ```
