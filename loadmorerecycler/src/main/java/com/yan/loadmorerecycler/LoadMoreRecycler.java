@@ -32,6 +32,14 @@ public class LoadMoreRecycler extends RecyclerView {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (dataAdapter != null) {
+            dataAdapter.registerAdapterDataObserver(adapterDataObserver);
+        }
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
         super.onDetachedFromWindow();
@@ -55,6 +63,7 @@ public class LoadMoreRecycler extends RecyclerView {
         dataAdapter.registerAdapterDataObserver(adapterDataObserver);
         setLoadMoreAdapter();
     }
+
 
     private void initMoreRecycler(Context context) {
         addOnScrollListener(onScrollListener);
