@@ -67,7 +67,6 @@ public class LoadMoreRecycler extends RecyclerView {
         setLoadMoreAdapter();
     }
 
-
     private void initMoreRecycler(Context context) {
         addOnScrollListener(onScrollListener);
     }
