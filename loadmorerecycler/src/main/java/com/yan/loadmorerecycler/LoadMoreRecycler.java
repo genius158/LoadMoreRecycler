@@ -118,8 +118,8 @@ public class LoadMoreRecycler extends RecyclerView {
                 loadTriggerY = recyclerView.getHeight() - loadMoreView.getHeight() / 2;
             }
             View tempLoadMore = recyclerView.findChildViewUnder(recyclerView.getWidth() / 2, loadTriggerY);
-
-            if (!isLoadMoreComplete && !isLoading && tempLoadMore == loadMoreView) {
+            if ((!isLoadMoreComplete && !isLoading && tempLoadMore == loadMoreView)
+                    || tempLoadMore == null) {
                 isLoading = true;
                 if (onLoadMoreListener != null) {
                     onLoadMoreListener.onLoading();
