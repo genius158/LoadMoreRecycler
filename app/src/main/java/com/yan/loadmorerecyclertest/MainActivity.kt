@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.yan.loadmorerecycler.LoadMoreRecycler
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_data_main.view.*
 import kotlinx.android.synthetic.main.view_load.view.*
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initLMR() {
         lmrData.layoutManager = LinearLayoutManager(baseContext)
+        lmrData.setCurrentLoadMoreTrigger(LoadMoreRecycler.LOAD_MORE_TRIGGER_START)
         lmrData.adapter = getAdapter()
 
         val loadMoreView = layoutInflater.inflate(R.layout.view_load, null)
