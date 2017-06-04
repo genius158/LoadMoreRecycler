@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -13,6 +14,10 @@ import android.view.View;
 
 public class LoadMoreRecycler extends RecyclerView {
     private static final String TAG = "MoreRecycler";
+    public static int LOAD_MORE_TRIGGER_START = 1;
+    public static int LOAD_MORE_TRIGGER_CENTER = 2;
+    public static int LOAD_MORE_TRIGGER_END = 3;
+    private int currentLoadMoreTrigger = LOAD_MORE_TRIGGER_START;
 
     private LoadWrapper loadMoreAdapter;
     private OnLoadMoreListener onLoadMoreListener;
@@ -60,7 +65,6 @@ public class LoadMoreRecycler extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         dataAdapter = adapter;
-        dataAdapter.registerAdapterDataObserver(adapterDataObserver);
         setLoadMoreAdapter();
     }
 
@@ -107,7 +111,16 @@ public class LoadMoreRecycler extends RecyclerView {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if (!canChildScrollDown() && !isLoadMoreComplete && !isLoading) {
+            int loadTriggerY = recyclerView.getHeight() - loadMoreView.getHeight() + 1;
+
+            if (currentLoadMoreTrigger == LOAD_MORE_TRIGGER_START) {
+                loadTriggerY = recyclerView.getHeight() - 1;
+            } else if (currentLoadMoreTrigger == LOAD_MORE_TRIGGER_CENTER) {
+                loadTriggerY = recyclerView.getHeight() - loadMoreView.getHeight() / 2;
+            }
+            View tempLoadMore = recyclerView.findChildViewUnder(recyclerView.getWidth() / 2, loadTriggerY);
+
+            if (!isLoadMoreComplete && !isLoading && tempLoadMore == loadMoreView) {
                 isLoading = true;
                 if (onLoadMoreListener != null) {
                     onLoadMoreListener.onLoading();
@@ -116,16 +129,8 @@ public class LoadMoreRecycler extends RecyclerView {
         }
     };
 
-    /**
-     * @return Whether it is possible for the child view of this layout to
-     * scroll down. Override this if the child view is a custom view.
-     */
-    private boolean canChildScrollDown() {
-        if (android.os.Build.VERSION.SDK_INT < 14) {
-            return ViewCompat.canScrollVertically(this, 1) || this.getScrollY() > 0;
-        } else {
-            return ViewCompat.canScrollVertically(this, 1);
-        }
+    public void setCurrentLoadMoreTrigger(int currentLoadMoreTrigger) {
+        this.currentLoadMoreTrigger = currentLoadMoreTrigger;
     }
 
     public interface OnLoadMoreListener {

@@ -25,6 +25,12 @@ recycler view with load more , recyclerView 实现加载更多的小栗子（ps:
     moreRecycler.resetLoadMore() // 重置加载更多
     moreRecycler.setLoadMoreView(view) // 设置加载更多的布局
     moreRecycler.getLoadMoreView() // 得到加载更多布局
+    
+    // 设置加载更多的触发位置，LOAD_MORE_TRIGGER_START：加载更多界面一显示，就加载
+    //                         LOAD_MORE_TRIGGER_CENTER：加载更多界面显示一半，加载
+    //                         LOAD_MORE_TRIGGER_END：加载更多界面显示完全，加载
+    moreRecycler.setCurrentLoadMoreTrigger(LOAD_MORE_TRIGGER_START) 
+    
     loadMoreAdapter= moreRecycler.getLoadMoreAdapter() // 得到装饰过的加载更多适配器
 
     // 数据更新可以用moreRecycler来实现,当然也可以用 adapter直接刷新
