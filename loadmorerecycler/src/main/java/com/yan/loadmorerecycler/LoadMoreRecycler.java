@@ -90,10 +90,11 @@ public class LoadMoreRecycler extends RecyclerView {
 
     public void loadMoreComplete() {
         isLoadMoreComplete = true;
+        isLoading = false;
     }
 
     public void loadMoreComplete(int dismissDuring) {
-        isLoadMoreComplete = true;
+        loadMoreComplete();
         postDelayed(new Runnable() {
             @Override
             public void run() {

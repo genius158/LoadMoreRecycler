@@ -33,18 +33,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSRL() {
         srlRefresh.setOnRefreshListener({
-            dataInit()
-            lmrData.notifyDataSetChanged()
-            lmrData.resetLoadMore()
-            lmrData.loadMoreView.tvLoad.text = getString(R.string.loading)
-            srlRefresh.isRefreshing = false
+            when (lmrData.isLoading) {
+                true -> srlRefresh.isRefreshing = false
+                false -> srlRefresh.postDelayed({
+                    dataInit()
+                    lmrData.notifyDataSetChanged()
+                    lmrData.resetLoadMore()
+                    lmrData.loadMoreView.tvLoad.text = getString(R.string.loading)
+                    srlRefresh.isRefreshing = false
+                }, 2000)
+            }
         })
     }
 
     private fun dataInit() {
         index = 0
         dataList.clear()
-        for (i in 0 until 12) {
+        for (i in 0 until 8) {
             dataList.add(index++.toString())
         }
     }
