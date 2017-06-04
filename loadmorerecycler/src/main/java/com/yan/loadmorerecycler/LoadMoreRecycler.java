@@ -20,8 +20,8 @@ public class LoadMoreRecycler extends RecyclerView {
 
     private LoadWrapper loadMoreAdapter;
     private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoadMoreComplete;
-    private boolean isLoading;
+    private volatile boolean isLoadMoreComplete;
+    private volatile boolean isLoading;
 
     private View loadMoreView;
     private Adapter dataAdapter;
@@ -118,8 +118,8 @@ public class LoadMoreRecycler extends RecyclerView {
                 loadTriggerY = recyclerView.getHeight() - loadMoreView.getHeight() / 2;
             }
             View tempLoadMore = recyclerView.findChildViewUnder(recyclerView.getWidth() / 2, loadTriggerY);
-            if ((!isLoadMoreComplete && !isLoading && tempLoadMore == loadMoreView)
-                    || tempLoadMore == null) {
+            if (!isLoadMoreComplete && !isLoading
+                    && (tempLoadMore == loadMoreView || tempLoadMore == null)) {
                 isLoading = true;
                 if (onLoadMoreListener != null) {
                     onLoadMoreListener.onLoading();
