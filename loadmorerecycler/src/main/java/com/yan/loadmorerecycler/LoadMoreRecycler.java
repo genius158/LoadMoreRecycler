@@ -38,15 +38,13 @@ public class LoadMoreRecycler extends RecyclerView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (dataAdapter != null) {
-            dataAdapter.registerAdapterDataObserver(adapterDataObserver);
-        }
+        registerObserver();
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
         super.onDetachedFromWindow();
+        unRegisterObserver();
     }
 
     public View getLoadMoreView() {
@@ -64,7 +62,26 @@ public class LoadMoreRecycler extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         dataAdapter = adapter;
+        registerObserver();
         setLoadMoreAdapter();
+    }
+
+    private void registerObserver() {
+        if (dataAdapter != null) {
+            try {
+                dataAdapter.registerAdapterDataObserver(adapterDataObserver);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void unRegisterObserver() {
+        try {
+            dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initMoreRecycler(Context context) {
@@ -230,5 +247,4 @@ public class LoadMoreRecycler extends RecyclerView {
         super(context, attrs, defStyle);
         initMoreRecycler(context);
     }
-
 }
