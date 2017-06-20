@@ -71,7 +71,7 @@ public class LoadMoreRecycler extends RecyclerView {
             try {
                 dataAdapter.registerAdapterDataObserver(adapterDataObserver);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(TAG, "registerObserver: " + e.getMessage());
             }
         }
     }
@@ -80,7 +80,7 @@ public class LoadMoreRecycler extends RecyclerView {
         try {
             dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG, "registerObserver: " + e.getMessage());
         }
     }
 
@@ -118,6 +118,10 @@ public class LoadMoreRecycler extends RecyclerView {
                 loadMoreAdapter.setLoadViewVisible(false);
             }
         }, dismissDuring);
+    }
+
+    public void doLoadMore() {
+        onScrollListener.onScrolled(this, 0, 0);
     }
 
     /**
