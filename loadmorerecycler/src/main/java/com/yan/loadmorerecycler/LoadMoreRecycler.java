@@ -23,6 +23,8 @@ public class LoadMoreRecycler extends RecyclerView {
     private volatile boolean isLoadMoreComplete;
     private volatile boolean isLoading;
 
+    private boolean isLoadMoreDissmiss;
+
     private View loadMoreView;
     private Adapter dataAdapter;
 
@@ -56,6 +58,9 @@ public class LoadMoreRecycler extends RecyclerView {
             loadMoreAdapter = new LoadWrapper(dataAdapter);
             loadMoreAdapter.setLoadMoreView(loadMoreView);
             super.setAdapter(loadMoreAdapter);
+            if (isLoadMoreDissmiss) {
+                loadMoreAdapter.setLoadViewVisible(false);
+            }
         }
     }
 
@@ -115,13 +120,35 @@ public class LoadMoreRecycler extends RecyclerView {
         postDelayed(new Runnable() {
             @Override
             public void run() {
+                isLoadMoreDissmiss = true;
                 loadMoreAdapter.setLoadViewVisible(false);
             }
         }, dismissDuring);
     }
 
     public void doLoadMore() {
-        onScrollListener.onScrolled(this, 0, 0);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (loadMoreView != null && needRefreshData() && !isLoadMoreComplete && !isLoading) {
+                    isLoading = true;
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoading();
+                    }
+                }
+            }
+        }, 150);
+    }
+
+    private boolean needRefreshData() {
+        int[] loadPositions = new int[2];
+        int[] selfPositions = new int[2];
+        getLocationInWindow(selfPositions);
+        loadMoreView.getLocationInWindow(loadPositions);
+        if (loadPositions[1] > selfPositions[1] && loadPositions[1] < selfPositions[1] + getHeight()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -148,6 +175,7 @@ public class LoadMoreRecycler extends RecyclerView {
             }
         }
     };
+
 
     public void setCurrentLoadMoreTrigger(int currentLoadMoreTrigger) {
         this.currentLoadMoreTrigger = currentLoadMoreTrigger;
@@ -196,6 +224,7 @@ public class LoadMoreRecycler extends RecyclerView {
         @Override
         public void onChanged() {
             notifyDataSetChanged();
+            doLoadMore();
         }
 
         @Override
@@ -205,35 +234,42 @@ public class LoadMoreRecycler extends RecyclerView {
                 return;
             }
             notifyItemRangeChanged(positionStart, itemCount);
+            doLoadMore();
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
             super.onItemRangeChanged(positionStart, itemCount, payload);
+            doLoadMore();
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             if (itemCount == 1) {
                 notifyItemInserted(positionStart);
+                doLoadMore();
                 return;
             }
             notifyItemRangeInserted(positionStart, itemCount);
+            doLoadMore();
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             if (itemCount == 1) {
                 notifyItemRemoved(positionStart);
+                doLoadMore();
                 return;
             }
             notifyItemRangeRemoved(positionStart, itemCount);
+            doLoadMore();
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount);
             isLoading = false;
+            doLoadMore();
         }
     };
 
