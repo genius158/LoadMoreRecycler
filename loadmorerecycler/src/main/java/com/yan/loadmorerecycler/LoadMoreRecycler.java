@@ -145,10 +145,9 @@ public class LoadMoreRecycler extends RecyclerView {
         int[] selfPositions = new int[2];
         getLocationInWindow(selfPositions);
         loadMoreView.getLocationInWindow(loadPositions);
-        if (loadPositions[1] > selfPositions[1] && loadPositions[1] < selfPositions[1] + getHeight()) {
-            return true;
-        }
-        return false;
+        Log.e(TAG, "needRefreshData: " + (selfPositions[1] + getHeight()) + "   " + "    " + (loadPositions[1] == selfPositions[1]) + "  " + (loadPositions[1] >= selfPositions[1]) +
+                "  " + (loadPositions[1] < (selfPositions[1] + getHeight())));
+        return loadPositions[1] >= selfPositions[1] && loadPositions[1] < (selfPositions[1] + getHeight());
     }
 
     /**
