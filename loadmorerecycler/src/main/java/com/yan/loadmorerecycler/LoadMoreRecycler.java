@@ -23,7 +23,7 @@ public class LoadMoreRecycler extends RecyclerView {
     private volatile boolean isLoadMoreComplete;
     private volatile boolean isLoading;
 
-    private boolean isLoadMoreDissmiss;
+    private boolean isLoadMoreDismiss;
 
     private View loadMoreView;
     private Adapter dataAdapter;
@@ -58,7 +58,7 @@ public class LoadMoreRecycler extends RecyclerView {
             loadMoreAdapter = new LoadWrapper(dataAdapter);
             loadMoreAdapter.setLoadMoreView(loadMoreView);
             super.setAdapter(loadMoreAdapter);
-            if (isLoadMoreDissmiss) {
+            if (isLoadMoreDismiss) {
                 loadMoreAdapter.setLoadViewVisible(false);
             }
         }
@@ -120,7 +120,7 @@ public class LoadMoreRecycler extends RecyclerView {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                isLoadMoreDissmiss = true;
+                isLoadMoreDismiss = true;
                 loadMoreAdapter.setLoadViewVisible(false);
             }
         }, dismissDuring);
