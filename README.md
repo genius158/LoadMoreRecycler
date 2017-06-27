@@ -25,6 +25,7 @@ recycler view with load more , recyclerView 实现加载更多的小栗子（ps:
     moreRecycler.resetLoadMore() // 重置加载更多
     moreRecycler.setLoadMoreView(view) // 设置加载更多的布局
     moreRecycler.getLoadMoreView() // 得到加载更多布局
+    moreRecycler.doLoadMore() // 数据刷新后，如果出现加载更多满足条件却没有触发，可以主动调用这个方法
     
     // 设置加载更多的触发位置，LOAD_MORE_TRIGGER_START：加载更多界面一显示，就加载
     //                         LOAD_MORE_TRIGGER_CENTER：加载更多界面显示一半，加载
