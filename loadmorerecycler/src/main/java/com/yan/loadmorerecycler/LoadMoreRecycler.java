@@ -145,7 +145,13 @@ public class LoadMoreRecycler extends RecyclerView {
         int[] selfPositions = new int[2];
         getLocationInWindow(selfPositions);
         loadMoreView.getLocationInWindow(loadPositions);
-        return loadPositions[1] >= selfPositions[1] && loadPositions[1] < (selfPositions[1] + getHeight());
+        int height = 0;
+        if (currentLoadMoreTrigger == LOAD_MORE_TRIGGER_CENTER) {
+            height = loadMoreView.getHeight() / 2;
+        } else if (currentLoadMoreTrigger == LOAD_MORE_TRIGGER_START) {
+            height = loadMoreView.getHeight();
+        }
+        return loadPositions[1] >= selfPositions[1] && loadPositions[1] < (selfPositions[1] + getHeight() - height);
     }
 
     /**
