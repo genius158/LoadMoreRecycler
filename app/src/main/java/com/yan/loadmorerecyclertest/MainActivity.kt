@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
     private lateinit var dataList: ArrayList<String>
     private var index: Int = 0
+    private lateinit var adapter: RecyclerView.Adapter<Holder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 true -> srlRefresh.isRefreshing = false
                 false -> srlRefresh.postDelayed({
                     dataInit()
-                    lmrData.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
                     lmrData.resetLoadMore()
                     lmrData.loadMoreView.tvLoad.text = getString(R.string.loading)
                     srlRefresh.isRefreshing = false
@@ -54,10 +55,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun initLMR() {
         lmrData.layoutManager = LinearLayoutManager(baseContext)
         lmrData.setCurrentLoadMoreTrigger(LoadMoreRecycler.LOAD_MORE_TRIGGER_START)
-        lmrData.adapter = getAdapter()
+        adapter=getAdapter()
+        lmrData.adapter = adapter
 
         val loadMoreView = layoutInflater.inflate(R.layout.view_load, null)
         loadMoreView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     for (i in 0 until 8) {
                         dataList.add(index++.toString())
                     }
-                    lmrData.notifyItemRangeInserted(tempSize, dataList.size - tempSize)
+                    adapter.notifyItemRangeInserted(tempSize, dataList.size - tempSize)
                 }
             }, 2000)
         })

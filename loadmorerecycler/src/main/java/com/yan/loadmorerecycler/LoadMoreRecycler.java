@@ -37,18 +37,6 @@ public class LoadMoreRecycler extends RecyclerView {
         setLoadMoreAdapter();
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        registerObserver();
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        unRegisterObserver();
-    }
-
     public View getLoadMoreView() {
         return loadMoreView;
     }
@@ -76,16 +64,8 @@ public class LoadMoreRecycler extends RecyclerView {
             try {
                 dataAdapter.registerAdapterDataObserver(adapterDataObserver);
             } catch (Exception e) {
-                Log.d(TAG, "registerObserver: " + e.getMessage());
+                Log.d(e.getClass().getName(), e.getMessage());
             }
-        }
-    }
-
-    private void unRegisterObserver() {
-        try {
-            dataAdapter.unregisterAdapterDataObserver(adapterDataObserver);
-        } catch (Exception e) {
-            Log.d(TAG, "registerObserver: " + e.getMessage());
         }
     }
 
