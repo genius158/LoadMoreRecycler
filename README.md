@@ -1,5 +1,6 @@
 # LoadMoreRecycler
-
+#
+![演示gif](demo.gif)
 ## 1.概述
 recycler view with load more , recyclerView 实现加载更多的小栗子（ps: demo 是用的kotlin ,还是得跟紧Google大大）
 <br/>
