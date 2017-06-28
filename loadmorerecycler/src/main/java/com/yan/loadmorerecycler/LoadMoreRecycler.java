@@ -169,7 +169,6 @@ public class LoadMoreRecycler extends RecyclerView {
         }
     };
 
-
     public void setCurrentLoadMoreTrigger(int currentLoadMoreTrigger) {
         this.currentLoadMoreTrigger = currentLoadMoreTrigger;
     }
