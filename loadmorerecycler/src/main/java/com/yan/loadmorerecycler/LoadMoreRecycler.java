@@ -55,17 +55,27 @@ public class LoadMoreRecycler extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
         dataAdapter = adapter;
-        registerObserver();
+        /**
+         * try twice to register adapter
+         */
+        if (!registerAdapter()) {
+            registerAdapter();
+        }
+
         setLoadMoreAdapter();
     }
 
-    private void registerObserver() {
-        if (dataAdapter != null) {
-            try {
-                dataAdapter.registerAdapterDataObserver(adapterDataObserver);
-            } catch (Exception e) {
-                Log.d(e.getClass().getName(), e.getMessage());
-            }
+    /**
+     * register adapter
+     * @return
+     */
+    private boolean registerAdapter() {
+        try {
+            dataAdapter.registerAdapterDataObserver(adapterDataObserver);
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return false;
         }
     }
 
